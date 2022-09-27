@@ -12,7 +12,7 @@ export default function App() {
       .then(response => response.json())
       .then(responseJson => setLocation({ latitude: responseJson.results[0].geometry.location.lat, longitude: responseJson.results[0].geometry.location.lng }))
       .catch(error => {
-        Alert.alert('Error', error);
+        alert(error);
       });
   }
 
@@ -27,12 +27,9 @@ export default function App() {
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        initialRegion={initial}
-        region={{ ...location, latitudeDelta: 0.0322, longitudeDelta: 0.0221 }}
+        region={Object.keys(location).length !== 0 ? { ...location, latitudeDelta: 0.0322, longitudeDelta: 0.0221 } : initial}
       >
-        <Marker
-          coordinate={location}
-        />
+        {Object.keys(location).length !== 0 ? <Marker coordinate={location} /> : null}
       </MapView>
       <TextInput style={{ fontSize: 18, height: 50 }} placeholder='Address'
         onChangeText={text => setAddress(text)} />
